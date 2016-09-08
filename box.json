@@ -1,0 +1,51 @@
+{
+    "name":"SendGridProtocol",
+    "version":"1.0.0",
+    "author":"Eric Peterson <eric@elpete.com>",
+    "location":"elpete/send-grid-protocol#1.0.0",
+    "homepage":"https://github.com/elpete/send-grid-protocol",
+    "documentation":"https://github.com/elpete/send-grid-protocol",
+    "repository":{
+        "type":"git",
+        "URL":"https://github.com/elpete/send-grid-protocol"
+    },
+    "bugs":"https://github.com/elpete/send-grid-protocol/issues",
+    "slug":"send-grid-protocol",
+    "shortDescription":"A cbmailservices protocol for Send Grid",
+    "description":"A cbmailservices protocol for Send Grid",
+    "type":"modules",
+    "keywords":[
+        "mail",
+        "send-grid",
+        "cbmailservices"
+    ],
+    "private":false,
+    "license":[
+        {
+            "type":"MIT",
+            "URL":"https://github.com/elpete/send-grid-protocol"
+        }
+    ],
+    "contributors":[
+        "Eric Peterson <eric@elpete.com>"
+    ],
+    "dependencies":{
+        
+    },
+    "devDependencies":{
+        "testbox":"^2.3.0+00044",
+        "cbmailservices":"^1.2.0+00028"
+    },
+    "installPaths":{
+        "testbox":"testbox",
+        "cbmailservices":"modules/cbmailservices"
+    },
+    "scripts":{
+        
+    },
+    "ignore":[
+        "**/.*",
+        "test",
+        "tests"
+    ]
+}

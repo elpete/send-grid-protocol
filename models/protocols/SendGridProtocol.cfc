@@ -29,7 +29,9 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 "email": mail.from
             }
         };
-
+        
+        body[ "subject" ] = mail.subject;
+        
         var personalization = {
             "to": [ {
                 "email": mail.to

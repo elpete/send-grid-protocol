@@ -41,7 +41,9 @@
         "cbmailservices":"modules/cbmailservices"
     },
     "scripts":{
-        
+        "postVersion":"package set location='elpete/send-grid-protocol#v`package version`'",
+        "onRelease":"publish",
+        "postPublish":"!git push && !git push --tags"
     },
     "ignore":[
         "**/.*",

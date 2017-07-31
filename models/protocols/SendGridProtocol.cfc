@@ -36,7 +36,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
             if ( ! isArray( mail.additionalInfo.categories ) ) {
                 mail.additionalInfo.categories = listToArray( mail.additionalInfo.categories );
             }
-            body[ "categories" ] = listToArray( mail.additionalInfo.categories );            
+            body[ "categories" ] = mail.additionalInfo.categories;
         }
         
         var personalization = {

@@ -32,6 +32,13 @@ component extends="cbmailservices.models.AbstractProtocol" {
         
         body[ "subject" ] = mail.subject;
         
+        if( structKeyExists( mail, "additionalInfo" ) && isStruct( mail.additionalInfo ) && structKeyExists( mail.additionalInfo, "categories" ) ){
+            if ( ! isArray( mail.additionalInfo.categories ) ) {
+                mail.additionalInfo.categories = listToArray( mail.additionalInfo.categories );
+            }
+            body[ "categories" ] = mail.additionalInfo.categories;
+        }
+        
         var personalization = {
             "to": [ {
                 "email": mail.to

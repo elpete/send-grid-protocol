@@ -1,8 +1,8 @@
 {
     "name":"SendGridProtocol",
-    "version":"1.2.0",
+    "version":"1.2.1",
     "author":"Eric Peterson <eric@elpete.com>",
-    "location":"elpete/send-grid-protocol#v1.2.0",
+    "location":"elpete/send-grid-protocol#v1.2.1",
     "homepage":"https://github.com/elpete/send-grid-protocol",
     "documentation":"https://github.com/elpete/send-grid-protocol",
     "repository":{

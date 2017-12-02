@@ -53,7 +53,7 @@ To send a plain text email, set the `type` to `plain`:
 var mail = mailService.newMail(
     to = user.getEmail(),
     subject = "Welcome to my site!",
-    type = "template"
+    type = "plain"
 );
 ```
 

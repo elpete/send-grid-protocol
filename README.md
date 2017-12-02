@@ -70,3 +70,14 @@ mail.setAdditionalInfoItem( "categories", "marketing" );
 mail.setAdditionalInfoItem( "categories", "lists,of,categories" );
 mail.setAdditionalInfoItem( "categories", [ "or", "as", "an", "array" ] );
 ```
+
+### Custom Arguments
+
+You can attach a struct of `custom_args` by setting them on the `additionalInfo.customArgs` field of the mail.
+```
+mail.setAdditionalInfoItem( "customArgs", {
+    "orderNumber" = toString( orderNumber )
+} );
+```
+
+> **Note:** Due to a bug in SendGrid, numeric values are not allowed.  Convert any numeric values to strings (`toString`) to avoid errors.

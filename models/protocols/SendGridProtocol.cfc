@@ -29,21 +29,27 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 "email": mail.from
             }
         };
-        
+
         body[ "subject" ] = mail.subject;
-        
-        if( structKeyExists( mail, "additionalInfo" ) && isStruct( mail.additionalInfo ) && structKeyExists( mail.additionalInfo, "categories" ) ){
-            if ( ! isArray( mail.additionalInfo.categories ) ) {
-                mail.additionalInfo.categories = listToArray( mail.additionalInfo.categories );
-            }
-            body[ "categories" ] = mail.additionalInfo.categories;
-        }
-        
+
         var personalization = {
             "to": [ {
                 "email": mail.to
             } ]
         };
+
+        if ( structKeyExists( mail, "additionalInfo" ) && isStruct( mail.additionalInfo ) ) {
+            if ( structKeyExists( mail.additionalInfo, "categories" ) ) {
+                if ( ! isArray( mail.additionalInfo.categories ) ) {
+                    mail.additionalInfo.categories = listToArray( mail.additionalInfo.categories );
+                }
+                body[ "categories" ] = mail.additionalInfo.categories;
+            }
+
+            if ( structKeyExists( mail.additionalInfo, "customArgs" ) ) {
+                body[ "custom_args" ] = mail.additionalInfo.customArgs;
+            }
+        }
 
         var type = structKeyExists( mail, "type" ) ? mail.type : "plain";
 
@@ -59,7 +65,6 @@ component extends="cbmailservices.models.AbstractProtocol" {
         }
 
         body[ "personalizations" ] = [ personalization ];
-
 
         cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST" ) {
             cfhttpparam( type = "header", name = "Authorization" value="Bearer #getProperty( "apiKey" )#" );

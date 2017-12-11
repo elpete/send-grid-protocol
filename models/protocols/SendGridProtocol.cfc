@@ -29,6 +29,10 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 "email": mail.from
             }
         };
+        
+        if ( structKeyExists( mail, "fromName" ) && mail.fromName != "" ) {
+            body[ "from" ][ "name" ] = mail.fromName;
+        }
 
         body[ "subject" ] = mail.subject;
 

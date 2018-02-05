@@ -34,6 +34,18 @@ component extends="cbmailservices.models.AbstractProtocol" {
             body[ "from" ][ "name" ] = mail.fromName;
         }
 
+        if ( structKeyExists( mail, "replyto" ) && mail.replyto != "" ) {
+            body[ "reply_to" ][ "email" ] = mail.replyto;
+        }
+        
+        if ( structKeyExists( mail, "cc" ) && mail.cc != "" ) {
+            body[ "cc" ][ "email" ] = mail.cc;
+        }
+        
+        if ( structKeyExists( mail, "bcc" ) && mail.bcc != "" ) {
+            body[ "bcc" ][ "email" ] = mail.bcc;
+        }
+
         body[ "subject" ] = mail.subject;
 
         var personalization = {

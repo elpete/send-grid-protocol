@@ -1,8 +1,8 @@
 {
     "name":"SendGridProtocol",
-    "version":"1.5.0",
+    "version":"2.0.0",
     "author":"Eric Peterson <eric@elpete.com>",
-    "location":"elpete/send-grid-protocol#v1.5.0",
+    "location":"elpete/send-grid-protocol#v2.0.0",
     "homepage":"https://github.com/elpete/send-grid-protocol",
     "documentation":"https://github.com/elpete/send-grid-protocol",
     "repository":{
@@ -39,9 +39,7 @@
         "cbmailservices":"modules/cbmailservices"
     },
     "scripts":{
-        "postVersion":"package set location='elpete/send-grid-protocol#v`package version`'",
-        "onRelease":"publish",
-        "postPublish":"!git push && !git push --tags"
+        "postVersion":"package set location='elpete/send-grid-protocol#v`package version`'"
     },
     "ignore":[
         "**/.*",

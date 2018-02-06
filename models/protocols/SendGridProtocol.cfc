@@ -47,18 +47,21 @@ component extends="cbmailservices.models.AbstractProtocol" {
             } ]
         };
 
-        var i = '';
-        if ( structKeyExists( mail, "bcc" ) && mail.bcc != "" ) {
-            personalization[ "bcc" ]=[];
-            for (i=1; i <= listlen(mail.bcc);i=i+1) {
-                arrayAppend(personalization[ "bcc" ],  { "email": ListGetAt(mail.bcc,i) } )
+        if ( mail.keyExists( "bcc" ) ) {
+            mail.bcc = isArray( mail.bcc ) ? mail.bcc : mail.bcc.listToArray();
+            if ( ! mail.bcc.isEmpty() ) {
+                personalization[ "bcc" ] = mail.bcc.map( function( address ) {
+                    return { "email" = address };
+                } );
             }
         }
-
-        if ( structKeyExists( mail, "cc" ) && mail.cc != "" ) {
-            personalization[ "cc" ]=[];
-            for (i=1; i <= listlen(mail.cc);i=i+1) {
-                arrayAppend(personalization[ "cc" ],  { "email": ListGetAt(mail.cc,i) } )
+        
+        if ( mail.keyExists( "cc" ) ) {
+            mail.cc = isArray( mail.cc ) ? mail.cc : mail.cc.listToArray();
+            if ( ! mail.cc.isEmpty() ) {
+                personalization[ "cc" ] = mail.cc.map( function( address ) {
+                    return { "email" = address };
+                } );
             }
         }
 

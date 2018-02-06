@@ -21,7 +21,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
     * @payload The payload to deliver
     */
     public function send( required cbmailservices.models.Mail payload ) {
-        var rtnStruct   = {error=true, errorArray=[]};
+        var rtnStruct   = {error=true, errorArray=[], messageID=''};
         var mail = payload.getMemento();
 
         var body = {
@@ -93,6 +93,9 @@ component extends="cbmailservices.models.AbstractProtocol" {
         }
         else {
             rtnStruct.error = false;
+        }
+        if ( StructKeyExists(cfhttp,'responseheader') AND StructKeyExists(cfhttp.responseheader,'X-Message-Id') ) {
+            rtnStruct.messageID = cfhttp.responseheader['X-Message-Id'];
         }
 
         return rtnStruct;

@@ -37,14 +37,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
         if ( structKeyExists( mail, "replyto" ) && mail.replyto != "" ) {
             body[ "reply_to" ][ "email" ] = mail.replyto;
         }
-        
-        if ( structKeyExists( mail, "cc" ) && mail.cc != "" ) {
-            body[ "cc" ][ "email" ] = mail.cc;
-        }
-        
-        if ( structKeyExists( mail, "bcc" ) && mail.bcc != "" ) {
-            body[ "bcc" ][ "email" ] = mail.bcc;
-        }
+
 
         body[ "subject" ] = mail.subject;
 
@@ -53,6 +46,21 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 "email": mail.to
             } ]
         };
+
+        var i = '';
+        if ( structKeyExists( mail, "bcc" ) && mail.bcc != "" ) {
+            personalization[ "bcc" ]=[];
+            for (i=1; i <= listlen(mail.bcc);i=i+1) {
+                arrayAppend(personalization[ "bcc" ],  { "email": ListGetAt(mail.bcc,i) } )
+            }
+        }
+
+        if ( structKeyExists( mail, "cc" ) && mail.cc != "" ) {
+            personalization[ "cc" ]=[];
+            for (i=1; i <= listlen(mail.cc);i=i+1) {
+                arrayAppend(personalization[ "cc" ],  { "email": ListGetAt(mail.cc,i) } )
+            }
+        }
 
         if ( structKeyExists( mail, "additionalInfo" ) && isStruct( mail.additionalInfo ) ) {
             if ( structKeyExists( mail.additionalInfo, "categories" ) ) {

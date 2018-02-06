@@ -71,8 +71,8 @@ component extends="cbmailservices.models.AbstractProtocol" {
         body[ "personalizations" ] = [ personalization ];
 
         cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST" ) {
-            cfhttpparam( type = "header", name = "Authorization" value="Bearer #getProperty( "apiKey" )#" );
-            cfhttpparam( type = "header", name = "Content-Type" value="application/json" );
+            cfhttpparam( type = "header", name = "Authorization", value="Bearer #getProperty( "apiKey" )#" );
+            cfhttpparam( type = "header", name = "Content-Type", value="application/json" );
             cfhttpparam( type = "body", value = serializeJson( body ) );
         };
 

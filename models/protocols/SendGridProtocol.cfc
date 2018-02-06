@@ -29,7 +29,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 "email": mail.from
             }
         };
-        
+
         if ( structKeyExists( mail, "fromName" ) && mail.fromName != "" ) {
             body[ "from" ][ "name" ] = mail.fromName;
         }
@@ -74,7 +74,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
             cfhttpparam( type = "header", name = "Authorization" value="Bearer #getProperty( "apiKey" )#" );
             cfhttpparam( type = "header", name = "Content-Type" value="application/json" );
             cfhttpparam( type = "body", value = serializeJson( body ) );
-        }
+        };
 
         if ( left( cfhttp.status_code, 1 ) != "2" && left( cfhttp.status_code, 1 ) != "3"  ) {
             rtnStruct.errorArray = deserializeJSON( cfhttp.filecontent ).errors;

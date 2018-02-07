@@ -1,3 +1,11 @@
+# v2.0.1
+## 07 Feb 2018 — 12:47:35 UTC
+
+### fix
+
++ __api:__ Fix for cc and bcc and return messageid (#4) ([ef87657](https://github.com/elpete/send-grid-protocol/commit/ef87657df2eec93adff63292186b8b719b8f8d98))
+
+
 # v2.0.0
 ## 06 Feb 2018 — 03:50:57 UTC
 

@@ -21,7 +21,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
     * @payload The payload to deliver
     */
     public function send( required cbmailservices.models.Mail payload ) {
-        var rtnStruct   = {error=true, errorArray=[]};
+        var rtnStruct   = {error=true, errorArray=[], messageID=''};
         var mail = payload.getMemento();
 
         var body = {
@@ -37,14 +37,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
         if ( structKeyExists( mail, "replyto" ) && mail.replyto != "" ) {
             body[ "reply_to" ][ "email" ] = mail.replyto;
         }
-        
-        if ( structKeyExists( mail, "cc" ) && mail.cc != "" ) {
-            body[ "cc" ][ "email" ] = mail.cc;
-        }
-        
-        if ( structKeyExists( mail, "bcc" ) && mail.bcc != "" ) {
-            body[ "bcc" ][ "email" ] = mail.bcc;
-        }
+
 
         body[ "subject" ] = mail.subject;
 
@@ -53,6 +46,24 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 "email": mail.to
             } ]
         };
+
+        if ( mail.keyExists( "bcc" ) ) {
+            mail.bcc = isArray( mail.bcc ) ? mail.bcc : mail.bcc.listToArray();
+            if ( ! mail.bcc.isEmpty() ) {
+                personalization[ "bcc" ] = mail.bcc.map( function( address ) {
+                    return { "email" = address };
+                } );
+            }
+        }
+        
+        if ( mail.keyExists( "cc" ) ) {
+            mail.cc = isArray( mail.cc ) ? mail.cc : mail.cc.listToArray();
+            if ( ! mail.cc.isEmpty() ) {
+                personalization[ "cc" ] = mail.cc.map( function( address ) {
+                    return { "email" = address };
+                } );
+            }
+        }
 
         if ( structKeyExists( mail, "additionalInfo" ) && isStruct( mail.additionalInfo ) ) {
             if ( structKeyExists( mail.additionalInfo, "categories" ) ) {
@@ -93,6 +104,9 @@ component extends="cbmailservices.models.AbstractProtocol" {
         }
         else {
             rtnStruct.error = false;
+        }
+        if ( StructKeyExists(cfhttp,'responseheader') AND StructKeyExists(cfhttp.responseheader,'X-Message-Id') ) {
+            rtnStruct.messageID = cfhttp.responseheader['X-Message-Id'];
         }
 
         return rtnStruct;

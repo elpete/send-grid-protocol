@@ -41,10 +41,11 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         body[ "subject" ] = mail.subject;
 
+        var tos = isArray( mail.to ) ? mail.to : mail.to.listToArray();
         var personalization = {
-            "to": [ {
-                "email": mail.to
-            } ]
+            "to": tos.map( function( to ) {
+                return { "email": to };
+            } )
         };
 
         if ( mail.keyExists( "bcc" ) ) {

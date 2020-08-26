@@ -1,6 +1,6 @@
 {
     "name":"SendGridProtocol",
-    "version":"4.0.0",
+    "version":"3.0.1",
     "author":"Eric Peterson <eric@elpete.com>",
     "location":"forgeboxStorage",
     "homepage":"https://github.com/elpete/send-grid-protocol",

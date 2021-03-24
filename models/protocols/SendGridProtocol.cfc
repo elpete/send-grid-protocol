@@ -94,6 +94,14 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         body[ "personalizations" ] = [ personalization ];
 
+	if ( structkeyExists( mail, 'mailparams' ) && isArray( mail.mailparams ) ){
+		body[ "attachments" ] =  mail.mailParams.map(function(mailParam){
+			return {
+				'content': '#toBase64(fileReadBinary(mailParam.file))#',
+				'filename': listLast(mailParam.file, '/')
+			};
+		});
+	}
         cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST" ) {
             cfhttpparam( type = "header", name = "Authorization", value="Bearer #getProperty( "apiKey" )#" );
             cfhttpparam( type = "header", name = "Content-Type", value="application/json" );

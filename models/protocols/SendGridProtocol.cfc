@@ -41,7 +41,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         body[ "subject" ] = mail.subject;
 
-        var tos = isArray( mail.to ) ? mail.to : mail.to.listToArray();
+        var tos = isArray( mail.to ) ? mail.to : arraySlice( mail.to.split( "[,;]\s*" ), 1 );
         var personalization = {
             "to": tos.map( function( to ) {
                 return { "email": to };
@@ -49,7 +49,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
         };
 
         if ( mail.keyExists( "bcc" ) ) {
-            mail.bcc = isArray( mail.bcc ) ? mail.bcc : mail.bcc.listToArray();
+            mail.bcc = isArray( mail.bcc ) ? mail.bcc : arraySlice( mail.bcc.split( "[,;]\s*" ), 1 );
             if ( ! mail.bcc.isEmpty() ) {
                 personalization[ "bcc" ] = mail.bcc.map( function( address ) {
                     return { "email" = address };
@@ -58,7 +58,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
         }
         
         if ( mail.keyExists( "cc" ) ) {
-            mail.cc = isArray( mail.cc ) ? mail.cc : mail.cc.listToArray();
+            mail.cc = isArray( mail.cc ) ? mail.cc : arraySlice( mail.cc.split( "[,;]\s*" ), 1 );
             if ( ! mail.cc.isEmpty() ) {
                 personalization[ "cc" ] = mail.cc.map( function( address ) {
                     return { "email" = address };

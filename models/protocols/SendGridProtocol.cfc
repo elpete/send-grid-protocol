@@ -53,8 +53,8 @@ component extends="cbmailservices.models.AbstractProtocol" {
             ccs = normalizeEmailsToArray( mail.cc ).filter( function( email ) {
                 return !arrayContainsNoCase( tos, email );
             } );
-            if ( ! mail.cc.isEmpty() ) {
-                personalization[ "cc" ] = mail.cc.map( function( address ) {
+            if ( ! ccs.isEmpty() ) {
+                personalization[ "cc" ] = ccs.map( function( address ) {
                     return { "email" = address };
                 } );
             }
@@ -65,8 +65,8 @@ component extends="cbmailservices.models.AbstractProtocol" {
             bccs = normalizeEmailsToArray( mail.bcc ).filter( function( email ) {
                 return !arrayContainsNoCase( tos, email ) && !arrayContainsNoCase( ccs, email );
             } );
-            if ( ! mail.bcc.isEmpty() ) {
-                personalization[ "bcc" ] = mail.bcc.map( function( address ) {
+            if ( ! bccs.isEmpty() ) {
+                personalization[ "bcc" ] = bccs.map( function( address ) {
                     return { "email" = address };
                 } );
             }

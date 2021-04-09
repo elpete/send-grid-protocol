@@ -48,7 +48,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
             } )
         };
 
-        if ( mail.keyExists( "bcc" ) ) {
+        if ( mail.keyExists( "bcc" )  && ! mail.bcc.isEmpty() ) {
             mail.bcc = isArray( mail.bcc ) ? mail.bcc : arraySlice( mail.bcc.split( "[,;]\s*" ), 1 );
             if ( ! mail.bcc.isEmpty() ) {
                 personalization[ "bcc" ] = mail.bcc.map( function( address ) {
@@ -57,7 +57,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
             }
         }
         
-        if ( mail.keyExists( "cc" ) ) {
+        if ( mail.keyExists( "cc" ) && ! mail.cc.isEmpty() ) {
             mail.cc = isArray( mail.cc ) ? mail.cc : arraySlice( mail.cc.split( "[,;]\s*" ), 1 );
             if ( ! mail.cc.isEmpty() ) {
                 personalization[ "cc" ] = mail.cc.map( function( address ) {

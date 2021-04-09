@@ -48,19 +48,25 @@ component extends="cbmailservices.models.AbstractProtocol" {
             } )
         };
 
-        if ( mail.keyExists( "bcc" ) ) {
-            mail.bcc = normalizeEmailsToArray( mail.bcc );
-            if ( ! mail.bcc.isEmpty() ) {
-                personalization[ "bcc" ] = mail.bcc.map( function( address ) {
+        var ccs = [];
+        if ( mail.keyExists( "cc" ) ) {
+            ccs = normalizeEmailsToArray( mail.cc ).filter( function( email ) {
+                return !arrayContainsNoCase( tos, email );
+            } );
+            if ( ! mail.cc.isEmpty() ) {
+                personalization[ "cc" ] = mail.cc.map( function( address ) {
                     return { "email" = address };
                 } );
             }
         }
-        
-        if ( mail.keyExists( "cc" ) ) {
-            mail.cc = normalizeEmailsToArray( mail.cc );
-            if ( ! mail.cc.isEmpty() ) {
-                personalization[ "cc" ] = mail.cc.map( function( address ) {
+
+        var bccs = [];
+        if ( mail.keyExists( "bcc" ) ) {
+            bccs = normalizeEmailsToArray( mail.bcc ).filter( function( email ) {
+                return !arrayContainsNoCase( tos, email ) && !arrayContainsNoCase( ccs, email );
+            } );
+            if ( ! mail.bcc.isEmpty() ) {
+                personalization[ "bcc" ] = mail.bcc.map( function( address ) {
                     return { "email" = address };
                 } );
             }

@@ -41,7 +41,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         body[ "subject" ] = mail.subject;
 
-        var tos = isArray( mail.to ) ? mail.to : arraySlice( mail.to.split( "[,;]\s*" ), 1 );
+        var tos = normalizeEmailsToArray( mail.to );
         var personalization = {
             "to": tos.map( function( to ) {
                 return { "email": to };
@@ -49,7 +49,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
         };
 
         if ( mail.keyExists( "bcc" ) ) {
-            mail.bcc = isArray( mail.bcc ) ? mail.bcc : arraySlice( mail.bcc.split( "[,;]\s*" ), 1 );
+            mail.bcc = normalizeEmailsToArray( mail.bcc );
             if ( ! mail.bcc.isEmpty() ) {
                 personalization[ "bcc" ] = mail.bcc.map( function( address ) {
                     return { "email" = address };
@@ -58,7 +58,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
         }
         
         if ( mail.keyExists( "cc" ) ) {
-            mail.cc = isArray( mail.cc ) ? mail.cc : arraySlice( mail.cc.split( "[,;]\s*" ), 1 );
+            mail.cc = normalizeEmailsToArray( mail.cc );
             if ( ! mail.cc.isEmpty() ) {
                 personalization[ "cc" ] = mail.cc.map( function( address ) {
                     return { "email" = address };
@@ -111,6 +111,22 @@ component extends="cbmailservices.models.AbstractProtocol" {
         }
 
         return rtnStruct;
+    }
+
+    private array function normalizeEmailsToArray( required any emails ) {
+        if ( isArray( arguments.emails ) ) {
+            return arguments.emails;
+        }
+
+        if ( !isValid( "String", arguments.emails ) ) {
+            return [ arguments.emails ];
+        }
+
+        if ( len( arguments.emails ) <= 0 ) {
+            return [];
+        }
+
+        return arraySlice( arguments.emails.split( "[,;]\s*" ), 1 );
     }
 
 }

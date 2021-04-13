@@ -41,26 +41,32 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         body[ "subject" ] = mail.subject;
 
-        var tos = isArray( mail.to ) ? mail.to : mail.to.listToArray();
+        var tos = normalizeEmailsToArray( mail.to );
         var personalization = {
             "to": tos.map( function( to ) {
                 return { "email": to };
             } )
         };
 
-        if ( mail.keyExists( "bcc" ) ) {
-            mail.bcc = isArray( mail.bcc ) ? mail.bcc : mail.bcc.listToArray();
-            if ( ! mail.bcc.isEmpty() ) {
-                personalization[ "bcc" ] = mail.bcc.map( function( address ) {
+        var ccs = [];
+        if ( mail.keyExists( "cc" ) ) {
+            ccs = normalizeEmailsToArray( mail.cc ).filter( function( email ) {
+                return !arrayContainsNoCase( tos, email );
+            } );
+            if ( ! ccs.isEmpty() ) {
+                personalization[ "cc" ] = ccs.map( function( address ) {
                     return { "email" = address };
                 } );
             }
         }
-        
-        if ( mail.keyExists( "cc" ) ) {
-            mail.cc = isArray( mail.cc ) ? mail.cc : mail.cc.listToArray();
-            if ( ! mail.cc.isEmpty() ) {
-                personalization[ "cc" ] = mail.cc.map( function( address ) {
+
+        var bccs = [];
+        if ( mail.keyExists( "bcc" ) ) {
+            bccs = normalizeEmailsToArray( mail.bcc ).filter( function( email ) {
+                return !arrayContainsNoCase( tos, email ) && !arrayContainsNoCase( ccs, email );
+            } );
+            if ( ! bccs.isEmpty() ) {
+                personalization[ "bcc" ] = bccs.map( function( address ) {
                     return { "email" = address };
                 } );
             }
@@ -111,6 +117,22 @@ component extends="cbmailservices.models.AbstractProtocol" {
         }
 
         return rtnStruct;
+    }
+
+    private array function normalizeEmailsToArray( required any emails ) {
+        if ( isArray( arguments.emails ) ) {
+            return arguments.emails;
+        }
+
+        if ( !isValid( "String", arguments.emails ) ) {
+            return [ arguments.emails ];
+        }
+
+        if ( len( arguments.emails ) <= 0 ) {
+            return [];
+        }
+
+        return arraySlice( arguments.emails.split( "[,;]\s*" ), 1 );
     }
 
 }

@@ -56,7 +56,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 } );
             }
         }
-        
+
         if ( mail.keyExists( "cc" ) ) {
             mail.cc = isArray( mail.cc ) ? mail.cc : mail.cc.listToArray();
             if ( ! mail.cc.isEmpty() ) {
@@ -94,14 +94,21 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         body[ "personalizations" ] = [ personalization ];
 
-	if ( structkeyExists( mail, 'mailparams' ) && isArray( mail.mailparams ) ){
-		body[ "attachments" ] =  mail.mailParams.map(function(mailParam){
-			return {
-				'content': '#toBase64(fileReadBinary(mailParam.file))#',
-				'filename': listLast(mailParam.file, '/')
-			};
-		});
-	}
+        if ( structkeyExists( mail, 'mailparams' ) && isArray( mail.mailparams ) && ArrayLen( mail.mailparams ) ){
+            body[ "attachments" ] =  mail.mailParams
+                                        .filter(function(mailParam){
+                                            return StructKeyExists(mailParam, 'file');
+                                        })
+                                        .map( function(mailParam){
+
+                                            return {
+                                                'content': '#toBase64(fileReadBinary(mailParam.file))#',
+                                                'filename': listLast(mailParam.file, '/')
+                                            };
+
+                                        });
+        }
+
         cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST" ) {
             cfhttpparam( type = "header", name = "Authorization", value="Bearer #getProperty( "apiKey" )#" );
             cfhttpparam( type = "header", name = "Content-Type", value="application/json" );

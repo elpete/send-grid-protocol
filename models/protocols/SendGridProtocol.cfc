@@ -102,17 +102,15 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         if ( structkeyExists( mail, 'mailparams' ) && isArray( mail.mailparams ) && ArrayLen( mail.mailparams ) ){
             body[ "attachments" ] =  mail.mailParams
-                                        .filter(function(mailParam){
-                                            return StructKeyExists(mailParam, 'file');
-                                        })
-                                        .map( function(mailParam){
-
-                                            return {
-                                                'content': '#toBase64(fileReadBinary(mailParam.file))#',
-                                                'filename': listLast(mailParam.file, '/')
-                                            };
-
-                                        });
+                .filter( function( mailParam ) {
+                    return structKeyExists( mailParam, "file" );
+                } )
+                .map( function( mailParam ) {
+                    return {
+                        "content": toBase64( fileReadBinary( mailParam.file ) ),
+                        "filename": listLast( mailParam.file, "/" )
+                    };
+                } );
         }
 
         cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST" ) {

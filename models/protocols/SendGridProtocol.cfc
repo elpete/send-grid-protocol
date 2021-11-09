@@ -6,6 +6,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
     * @properties A map of configuration properties for the protocol
     */
     public SendGridProtocol function init( struct properties = {} ) {
+        variables.name = "SendGrid";
         super.init( argumentCollection = arguments );
 
         if ( ! structKeyExists( properties, "apiKey" ) ) {

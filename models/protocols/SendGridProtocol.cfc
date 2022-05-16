@@ -22,7 +22,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
     * @payload The payload to deliver
     */
     public function send( required cbmailservices.models.Mail payload ) {
-        var rtnStruct   = {error=true, errorArray=[], messageID=''};
+        var rtnStruct   = {error=true, messages=[], messageID=''};
         var mail = payload.getMemento();
 
         var body = {
@@ -121,7 +121,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
         };
 
         if ( left( cfhttp.status_code, 1 ) != "2" && left( cfhttp.status_code, 1 ) != "3"  ) {
-            rtnStruct.errorArray = deserializeJSON( cfhttp.filecontent ).errors;
+            rtnStruct.messages = deserializeJSON( cfhttp.filecontent ).errors;
         }
         else {
             rtnStruct.error = false;

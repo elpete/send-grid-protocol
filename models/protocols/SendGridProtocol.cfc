@@ -120,12 +120,17 @@ component extends="cbmailservices.models.AbstractProtocol" {
             cfhttpparam( type = "body", value = serializeJson( body ) );
         };
 
-        if ( left( cfhttp.status_code, 1 ) != "2" && left( cfhttp.status_code, 1 ) != "3"  ) {
+        if ( !structKeyExists( cfhttp, "responseheader" ) || !structKeyExists( cfhttp.responseheader, "status_code" ) ) {
+            log.error( "An unknown error occured when sending the http request to SendGrid", cfhttp );
+            rtnStruct.messages = [ "An unknown error occurred" ];
+        }
+        else if ( left( cfhttp.responseheader.status_code, 1 ) != "2" && left( cfhttp.responseheader.status_code, 1 ) != "3"  ) {
             rtnStruct.messages = deserializeJSON( cfhttp.filecontent ).errors;
         }
         else {
             rtnStruct.error = false;
         }
+        
         if ( StructKeyExists(cfhttp,'responseheader') AND StructKeyExists(cfhttp.responseheader,'X-Message-Id') ) {
             rtnStruct.messageID = cfhttp.responseheader['X-Message-Id'];
         }

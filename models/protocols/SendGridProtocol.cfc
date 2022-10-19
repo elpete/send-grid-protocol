@@ -84,6 +84,19 @@ component extends="cbmailservices.models.AbstractProtocol" {
             if ( structKeyExists( mail.additionalInfo, "customArgs" ) ) {
                 body[ "custom_args" ] = mail.additionalInfo.customArgs;
             }
+
+            if ( structKeyExists( mail.additionalInfo, "trackingSettings" ) ) {
+                body[ "tracking_settings" ] = mail.additionalInfo.trackingSettings;
+            }
+
+            if ( structKeyExists( mail.additionalInfo, "mailSettings" ) ) {
+                body[ "mail_settings" ] = mail.additionalInfo.mailSettings;
+            }
+
+            if ( structKeyExists( mail.additionalInfo, "batchID" ) ) {
+                body[ "batch_id" ] = mail.additionalInfo.batchID;
+            }
+
         }
 
         var type = structKeyExists( mail, "type" ) ? mail.type : "plain";

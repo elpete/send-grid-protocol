@@ -103,7 +103,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
 
         if ( type == "template" ) {
             body[ "template_id" ] = mail.body;
-            personalization[ "substitutions" ] = mail.bodyTokens;
+            personalization[ "dynamic_template_data" ] = mail.bodyTokens;
         }
         else {
             body[ "content" ] = [ {

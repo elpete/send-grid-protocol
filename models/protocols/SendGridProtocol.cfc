@@ -127,25 +127,37 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 } );
         }
 
-        cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST" ) {
-            cfhttpparam( type = "header", name = "Authorization", value="Bearer #getProperty( "apiKey" )#" );
-            cfhttpparam( type = "header", name = "Content-Type", value="application/json" );
-            cfhttpparam( type = "body", value = serializeJson( body ) );
-        };
+        var sendGridResponse = "";
+        try {
+            cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST", result = "sendGridResponse", timeout = 10, throwOnError = "true" ) {
+                cfhttpparam( type = "header", name = "Authorization", value="Bearer #getProperty( "apiKey" )#" );
+                cfhttpparam( type = "header", name = "Content-Type", value="application/json" );
+                cfhttpparam( type = "body", value = serializeJson( body ) );
+            };
+        } catch ( any e ) {
+            log.error( "An unknown error occurred when sending the http request to SendGrid", e );
+            rtnStruct.messages = [ "An unknown error occurred" ];
+            return rtnStruct;
+        }
 
-        if ( !structKeyExists( cfhttp, "responseheader" ) || !structKeyExists( cfhttp.responseheader, "status_code" ) ) {
-            log.error( "An unknown error occured when sending the http request to SendGrid", cfhttp );
+        if ( !isStruct( sendGridResponse ) ) {
+            log.error( "An unknown error occurred when sending the http request to SendGrid. No response was returned." );
+            rtnStruct.messages = [ "An unknown error occurred. No response was returned." ];
+        }
+
+        if ( !structKeyExists( sendGridResponse, "responseheader" ) || !structKeyExists( sendGridResponse.responseheader, "status_code" ) ) {
+            log.error( "An unknown error occurred when sending the http request to SendGrid", sendGridResponse );
             rtnStruct.messages = [ "An unknown error occurred" ];
         }
-        else if ( left( cfhttp.responseheader.status_code, 1 ) != "2" && left( cfhttp.responseheader.status_code, 1 ) != "3"  ) {
-            rtnStruct.messages = deserializeJSON( cfhttp.filecontent ).errors;
+        else if ( left( sendGridResponse.responseheader.status_code, 1 ) != "2" && left( sendGridResponse.responseheader.status_code, 1 ) != "3"  ) {
+            rtnStruct.messages = deserializeJSON( sendGridResponse.filecontent ).errors;
         }
         else {
             rtnStruct.error = false;
         }
         
-        if ( StructKeyExists(cfhttp,'responseheader') AND StructKeyExists(cfhttp.responseheader,'X-Message-Id') ) {
-            rtnStruct.messageID = cfhttp.responseheader['X-Message-Id'];
+        if ( StructKeyExists(sendGridResponse,'responseheader') AND StructKeyExists(sendGridResponse.responseheader,'X-Message-Id') ) {
+            rtnStruct.messageID = sendGridResponse.responseheader['X-Message-Id'];
         }
 
         return rtnStruct;

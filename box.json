@@ -31,8 +31,8 @@
     ],
     "dependencies":{},
     "devDependencies":{
-        "testbox":"^2.3.0+00044",
-        "cbmailservices":"^1.2.0+00028"
+        "testbox":"^6.0",
+        "cbmailservices":"^2.0"
     },
     "installPaths":{
         "testbox":"testbox/",

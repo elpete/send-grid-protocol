@@ -38,7 +38,11 @@
         "testbox":"testbox/",
         "cbmailservices":"modules/cbmailservices/"
     },
-    "scripts":{},
+    "scripts":{
+        "format":"cfformat run ModuleConfig.cfc,models/**/*.cfc,tests/specs/**/*.cfc --overwrite",
+        "format:check":"cfformat check ModuleConfig.cfc,models/**/*.cfc,tests/specs/**/*.cfc --verbose",
+        "format:watch":"cfformat watch ModuleConfig.cfc,models/**/*.cfc,tests/specs/**/*.cfc"
+    },
     "ignore":[
         "**/.*",
         "test",

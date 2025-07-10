@@ -1,3 +1,19 @@
+# v6.0.1
+## 10 Jul 2025 — 16:50:03 UTC
+
+### other
+
++ __\*:__ chore: Update ColdBox versions for CI testing
+ ([fa6aafd](https://github.com/elpete/send-grid-protocol/commit/fa6aafd16afdea5361a36535cafa70d3e2a0c844))
++ __\*:__ chore: Update testing port
+ ([78ba9b9](https://github.com/elpete/send-grid-protocol/commit/78ba9b93671aa680d01ce14b2861d497d2606521))
++ __\*:__ chore: Update CI testing
+ ([9b86ce9](https://github.com/elpete/send-grid-protocol/commit/9b86ce9e80959ffea77706b24a7c760c5aebc0e7))
++ __\*:__ chore: formatting
+ ([2193a33](https://github.com/elpete/send-grid-protocol/commit/2193a33b46c820c2678b38c12fe5dd878a3e3a2d))
++ __\*:__ fix: Additional logging, error trapping around SendGrid API call ([15ee468](https://github.com/elpete/send-grid-protocol/commit/15ee4684f4f5de07c4da3161f38b757e6bd4665a))
+
+
 # v4.0.0
 ## 26 Aug 2020 — 12:02:18 UTC
 

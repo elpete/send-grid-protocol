@@ -46,6 +46,7 @@
     "ignore":[
         "**/.*",
         "test",
-        "tests"
+        "tests",
+        "server-*.json"
     ]
 }

@@ -1,0 +1,16 @@
+{
+    "name":"send-grid-protocol-lucee@be",
+    "app":{
+        "serverHomeDirectory":".engine/luceeBE",
+        "cfengine":"lucee@be"
+    },
+    "web":{
+        "http":{
+            "port":"60801"
+        },
+        "rewrites":{
+            "enable":"true"
+        }
+    },
+    "openBrowser":"false"
+}

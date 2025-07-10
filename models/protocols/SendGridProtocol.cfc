@@ -127,16 +127,22 @@ component extends="cbmailservices.models.AbstractProtocol" {
                 } );
         }
 
+        var sendGridResponse = "";
         try {
             cfhttp( url = "https://api.sendgrid.com/v3/mail/send", method = "POST", result = "sendGridResponse", timeout = 10, throwOnError = "true" ) {
                 cfhttpparam( type = "header", name = "Authorization", value="Bearer #getProperty( "apiKey" )#" );
                 cfhttpparam( type = "header", name = "Content-Type", value="application/json" );
                 cfhttpparam( type = "body", value = serializeJson( body ) );
             };
-        } catch (any e) {
+        } catch ( any e ) {
             log.error( "An unknown error occurred when sending the http request to SendGrid", e );
             rtnStruct.messages = [ "An unknown error occurred" ];
             return rtnStruct;
+        }
+
+        if ( !isStruct( sendGridResponse ) ) {
+            log.error( "An unknown error occurred when sending the http request to SendGrid. No response was returned." );
+            rtnStruct.messages = [ "An unknown error occurred. No response was returned." ];
         }
 
         if ( !structKeyExists( sendGridResponse, "responseheader" ) || !structKeyExists( sendGridResponse.responseheader, "status_code" ) ) {

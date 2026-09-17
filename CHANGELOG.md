@@ -1,3 +1,12 @@
+# v6.0.2
+## 17 Sep 2026 — 18:03:24 UTC
+
+### other
+
++ __\*:__ fix: capture SendGrid error response bodies
+ ([b51cff2](https://github.com/elpete/send-grid-protocol/commit/b51cff2491ccca4a44def384157c76768b0cce37))
+
+
 # v6.0.1
 ## 10 Jul 2025 — 16:50:03 UTC
 

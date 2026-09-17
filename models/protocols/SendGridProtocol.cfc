@@ -134,7 +134,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
 				method       = "POST",
 				result       = "sendGridResponse",
 				timeout      = 10,
-				throwOnError = "true"
+				throwOnError = "false"
 			) {
 				cfhttpparam(
 					type  = "header",
@@ -173,6 +173,7 @@ component extends="cbmailservices.models.AbstractProtocol" {
 				1
 			) != "3"
 		) {
+			log.error( "SendGrid returned an unsuccessful response", sendGridResponse );
 			rtnStruct.messages = deserializeJSON( sendGridResponse.filecontent ).errors;
 		} else {
 			rtnStruct.error = false;
